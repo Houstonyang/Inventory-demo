@@ -29,7 +29,7 @@ create table Supplier
 	Contact nvarchar(50),
 	Phone nvarchar(50),
 
-	CreatTime datetime2 not null default sysdatetime()
+	CreateTime datetime2 not null default sysdatetime()
 
 )
 select * from Supplier

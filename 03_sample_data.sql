@@ -1,5 +1,5 @@
-use Inventory
-Go
+USE Inventory
+GO
 
 --插入商品数据
 insert into Goods(GoodsCode, GoodsName, GoodSize, Unit)
