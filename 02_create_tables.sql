@@ -3,7 +3,7 @@ GO
 
 
 --商品
-create table Goods
+create table dbo.Goods
 (
 	GoodsId int identity(1, 1) primary key,
 	GoodsCode nvarchar(50) not null unique,
@@ -21,7 +21,7 @@ select * from Goods
 
 
 --供应商
-create table Supplier
+create table dbo.Supplier
 (
 	SupplierId int identity(1, 1) primary key,
 	SupplierCode nvarchar(50) not null unique,
@@ -39,7 +39,7 @@ select * from Supplier
 
 
 --客户
-create table Customer
+create table dbo.Customer
 (
 	CustomerId int identity(1, 1) primary key,
 	CustomerCode nvarchar(50) not null unique,
@@ -55,7 +55,7 @@ select*from Customer
 
 
 --仓库
-create table Warehouse
+create table dbo.Warehouse
 (
 	WarehouseId int identity(1, 1) primary key,
 	WarehouseCode nvarchar(50) not null unique,

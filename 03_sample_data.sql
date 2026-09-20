@@ -2,7 +2,7 @@ USE Inventory
 GO
 
 --插入商品数据
-insert into Goods(GoodsCode, GoodsName, GoodSize, Unit)
+insert into dbo.Goods(GoodsCode, GoodsName, GoodSize, Unit)
 values 
 ('G001', N'32G U盘', N'USB3.0', N'个'),
 ('G002', N'订书机', N'适用24/6订书钉', N'台'),
@@ -39,7 +39,7 @@ select * from Goods
 
 
 --插入供应商数据
-insert into Supplier(SupplierCode, SupplierName, Contact, Phone)
+insert into dbo.Supplier(SupplierCode, SupplierName, Contact, Phone)
 values 
 ('S001', N'深圳市星澜电子科技有限公司', N'郑双文', '13568239071'),
 ('S002', N'广州市云帆办公用品有限公司', N'陈嘉宁', '13692741583'),
@@ -76,7 +76,7 @@ select * from Supplier
 
 
 --插入客户数据
-insert into Customer( CustomerCode, CustomerName, Contact, Phone)
+insert into dbo.Customer( CustomerCode, CustomerName, Contact, Phone)
 values
 ('C001', N'深圳市启澜商贸有限公司', N'陈思远', '13862749105'),
 ('C002', N'广州市锦舟广告有限公司', N'林晓悦', '13684927531'),
@@ -111,9 +111,9 @@ values
 
 
 --插入库存数据
-insert into Warehouse( WarehouseCode, WarehouseName, Location)	
+insert into dbo.Warehouse( WarehouseCode, WarehouseName, Location)	
 values
-('W001', '深圳中心仓', N'深圳市宝安区星澜物流园A栋'),
+('W001', N'深圳中心仓', N'深圳市宝安区星澜物流园A栋'),
 ('W002', N'广州办公用品仓', N'广州市白云区锦舟物流园B栋'),
 ('W003', N'东莞五金配件仓', N'东莞市长安镇启禾工业园C栋'),
 ('W004', N'佛山包装材料仓', N'佛山市南海区瑞棠工业园D栋'),
@@ -123,3 +123,5 @@ values
 ('W008', N'成都西南配送仓', N'成都市双流区森悦物流园D栋'),
 ('W009', N'郑州综合商品仓', N'郑州市经开区嘉澜物流园A栋'),
 ('W010', N'天津华北配送仓', N'天津市东丽区青禾物流园B栋')
+
+select * from Warehouse
