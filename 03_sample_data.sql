@@ -1,7 +1,11 @@
-USE Inventory
+--插入基础档案与采购业务测试数据
+--依赖：先执行 01、02
+
+USE Inventory;
 GO
 
---插入商品数据
+--插入商品数据（基础档案）商品数据（30条）
+
 insert into dbo.Goods(GoodsCode, GoodsName, GoodSize, Unit)
 values 
 ('G001', N'32G U盘', N'USB3.0', N'个'),
@@ -33,12 +37,11 @@ values
 ('G027', N'文件夹', N'A4 双强力夹', N'个'),
 ('G028', N'档案盒', N'A4 背宽55mm', N'个'),
 ('G029', N'指纹考勤机', N'指纹容量3000枚', N'台'),
-('G030', N'无线对讲机', N'配套充电座', N'台')
+('G030', N'无线对讲机', N'配套充电座', N'台');
+GO
 
-select * from Goods
 
-
---插入供应商数据
+--插入供应商数据（30条）
 insert into dbo.Supplier(SupplierCode, SupplierName, Contact, Phone)
 values 
 ('S001', N'深圳市星澜电子科技有限公司', N'郑双文', '13568239071'),
@@ -70,12 +73,11 @@ values
 ('S027', N'南宁市青禾商贸有限公司', N'曹锦程', '18129647385'),
 ('S028', N'昆明市云棠办公用品有限公司', N'彭语桐', '18974318526'),
 ('S029', N'贵阳市森澜智能设备有限公司', N'曾晨阳', '13651879403'),
-('S030', N'珠海市启川通信技术有限公司', N'沈亦宁', '13597462810')
+('S030', N'珠海市启川通信技术有限公司', N'沈亦宁', '13597462810');
+GO
 
-select * from Supplier
 
-
---插入客户数据
+--插入客户数据（30条）
 insert into dbo.Customer( CustomerCode, CustomerName, Contact, Phone)
 values
 ('C001', N'深圳市启澜商贸有限公司', N'陈思远', '13862749105'),
@@ -107,10 +109,10 @@ values
 ('C027', N'南宁市青舟百货有限公司', N'彭瑞泽', '18946382710'),
 ('C028', N'昆明市云景旅游服务有限公司', N'曾晓琳', '13589731642'),
 ('C029', N'贵阳市嘉禾设备租赁有限公司', N'沈博文', '13657294803'),
-('C030', N'珠海市星棠网络科技有限公司', N'叶安琪', '13894627519')
+('C030', N'珠海市星棠网络科技有限公司', N'叶安琪', '13894627519');
+GO
 
-
---插入库存数据
+--插入仓库数据（10条）
 insert into dbo.Warehouse( WarehouseCode, WarehouseName, Location)	
 values
 ('W001', N'深圳中心仓', N'深圳市宝安区星澜物流园A栋'),
@@ -122,6 +124,70 @@ values
 ('W007', N'武汉华中周转仓', N'武汉市东西湖区景航物流园C栋'),
 ('W008', N'成都西南配送仓', N'成都市双流区森悦物流园D栋'),
 ('W009', N'郑州综合商品仓', N'郑州市经开区嘉澜物流园A栋'),
-('W010', N'天津华北配送仓', N'天津市东丽区青禾物流园B栋')
+('W010', N'天津华北配送仓', N'天津市东丽区青禾物流园B栋');
+GO
 
-select * from Warehouse
+
+--第二部分：采购业务数据
+--订单 → 订单明细 → 入库单 → 入库明细
+
+--插入采购订单8张，覆盖三种状态
+insert into dbo.PurchaseOrder(OrderNo, SupplierId, OrderDate, Status, Remark)
+values
+(N'PO20260910001', 1, '2026-09-10', N'CLOSED',   N'采购32G U盘，已全部到货'),
+(N'PO20260912001', 2, '2026-09-12', N'CLOSED',   N'采购订书机，已全部到货'),
+(N'PO20260915001', 3, '2026-09-15', N'APPROVED', N'采购精密轴承，部分到货，等待尾货'),
+(N'PO20260918001', 4, '2026-09-18', N'APPROVED', N'采购包装材料，等待到货'),
+(N'PO20260920001', 5, '2026-09-20', N'DRAFT',    N'计划采购无线网卡，待确认数量和价格'),
+(N'PO20260921001', 6, '2026-09-21', N'DRAFT',    N'计划采购数字万用表，等待审核'),
+(N'PO20260922001', 1, '2026-09-22', N'APPROVED', N'电子配件补货，等待到货'),
+(N'PO20260923001', 2, '2026-09-23', N'APPROVED', N'办公用品月度补货，等待到货');
+GO
+
+
+--插入采购订单明细（表体）：一张订单多行商品 9行
+insert into dbo.PurchaseOrderDetail(OrderId, GoodsId, Quantity, Price, Amount)
+values
+(1, 1, 100, 3.50, 350.00),			-- 订单1：G001 32G U盘
+(2, 2, 200, 12.00, 2400.00),		-- 订单2：G002 订书机
+(3, 3, 500, 25.00, 12500.00),		-- 订单3：G003 精密轴承
+(4, 4, 300, 6.80, 2040.00),			-- 订单4：G004 瓦楞纸箱
+(4, 20, 100, 45.00, 4500.00),		-- 订单4：G020 气泡膜
+(7, 7, 50, 320.00, 16000.00),		-- 订单7：G007 固态硬盘 ← S001 第二次采购
+(7, 12, 80, 45.00, 3600.00),		-- 订单7：G012 无线鼠标
+(8, 24, 200, 22.00, 4400.00),		-- 订单8：G024 A4打印纸 ← S002 第二次采购
+(8, 14, 100, 15.00, 1500.00);		-- 订单8：G014 中性笔
+GO
+--订单5、6为草稿（数量和价格未确认），暂不录入明细
+
+
+--插入采购入库单 3张（表头）
+--只有货已到的订单才有（订单4/7/8在途、5/6草稿，故无入库单）
+insert into dbo.PurchaseIn(InNo, SupplierId, WarehouseId, OrderId, InDate, Status)
+values
+(N'PI20260914001', 1, 1, 1, '2026-09-14', N'APPROVED'),		-- 订单1：全部到货，入深圳中心仓
+(N'PI20260916001', 2, 2, 2, '2026-09-16', N'APPROVED'),		-- 订单2：全部到货，入广州办公用品仓
+(N'PI20260920001', 3, 3, 3, '2026-09-20', N'APPROVED');		-- 订单3：部分到货，入东莞五金配件仓
+GO
+
+
+--插入采购入库单明细 3行（表体）
+insert into dbo.PurchaseInDetail(PurchaseInId, GoodsId, Quantity, Price, Amount)
+values
+(1, 1, 100, 3.50, 350.00),			--与订单1一致（全部到货）
+(2, 2, 200, 12.00, 2400.00),		--与订单2一致（全部到货）
+(3, 3, 300, 25.00, 7500.00);		--短交，订单3订500，实收300
+GO
+
+
+select
+    (select count(*) from dbo.Goods)                as 商品,
+    (select count(*) from dbo.Supplier)             as 供应商,
+    (select count(*) from dbo.Customer)             as 客户,
+    (select count(*) from dbo.Warehouse)            as 仓库,
+    (select count(*) from dbo.PurchaseOrder)        as 采购订单,
+    (select count(*) from dbo.PurchaseOrderDetail)  as 订单明细,
+    (select count(*) from dbo.PurchaseIn)           as 入库单,
+    (select count(*) from dbo.PurchaseInDetail)     as 入库明细;
+
+    --输出结果： 30 / 30 / 30 / 10 / 8 / 9 / 3 / 3
