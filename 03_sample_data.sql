@@ -190,4 +190,4 @@ select
     (select count(*) from dbo.PurchaseIn)           as 入库单,
     (select count(*) from dbo.PurchaseInDetail)     as 入库明细;
 
-    --输出结果： 30 / 30 / 30 / 10 / 8 / 9 / 3 / 3
+    --输出结果： 30、30、30、10、8、9、3、3
