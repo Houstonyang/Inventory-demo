@@ -18,7 +18,7 @@ create table dbo.Goods
 	Unit nvarchar(20) not null,					-- 单位
 	IsActive bit not null default 1,			-- 是否启用
 
-	CreateTime datetime2 not null default sysdatetime(),
+	CreateTime datetime2 not null default sysdatetime()
 	
 );
 GO
@@ -34,7 +34,7 @@ create table dbo.Supplier
 	Contact nvarchar(50) null,
 	Phone nvarchar(50) null,
 	
-	CreateTime datetime2 not null default sysdatetime(),
+	CreateTime datetime2 not null default sysdatetime()
 
 );
 GO
@@ -51,7 +51,7 @@ create table dbo.Customer
 	Contact nvarchar(50) null,
 	Phone nvarchar(50) null,
 
-	CreateTime datetime2 not null default sysdatetime(),
+	CreateTime datetime2 not null default sysdatetime()
 
 );
 GO
@@ -66,7 +66,7 @@ create table dbo.Warehouse
 	Location nvarchar(200) null,
 	IsActive bit not null default 1,
 
-	CreateTime datetime2 not null default sysdatetime(),
+	CreateTime datetime2 not null default sysdatetime()
 
 );
 GO
